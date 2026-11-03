@@ -1,5 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import { fileURLToPath } from 'node:url';
 import { validateContent, loadContent } from '../scripts/lib/content.mjs';
 import { render } from '../src/render.mjs';
 
@@ -70,4 +71,28 @@ test('video output defers network loading and supplies accessible manual control
   assert.match(html, /muted playsinline loop preload="none"/);
   assert.doesNotMatch(html, / autoplay[ >]/);
   assert.match(html, /aria-label="Play video for One"/);
+});
+
+test('real image and video poster dimensions reach the rendered previews', async () => {
+  const content = await loadContent(fileURLToPath(new URL('../', import.meta.url)));
+  for (const [slug, width, height] of [['ggo', 1280, 664], ['d2r', 1280, 720], ['ggs', 1280, 800], ['mhn', 360, 660]]) {
+    assert.deepEqual(content.projects.find(project => project.slug === slug).media.dimensions, { width, height });
+  }
+  const html = render(content, { css: '/assets/styles.css', js: '/assets/main.js' });
+  assert.match(html, /<img src="\/media\/ggo\/ggo.webp"[^>]*width="1280" height="664"/);
+  assert.match(html, /<img src="\/media\/d2r\/d2r.webp"[^>]*width="1280" height="720"/);
+  assert.match(html, /<figure class="project-media project-media--portrait" style="--media-ratio: 360 \/ 660">/);
+  assert.match(html, /<video[^>]*poster="\/media\/mhn\/poster.webp" width="360" height="660"/);
+  assert.doesNotMatch(html, /width="1440" height="900"/);
+});
+
+test('video without a poster keeps deferred loading and omits invented dimensions', () => {
+  const { site, data } = fixture();
+  data.projects[0].media = { type: 'video', src: '/media/one/clip.mp4', alt: 'A recording' };
+  const html = render(validateContent(site, data), { css: '/assets/styles.css', js: '/assets/main.js' });
+  const video = html.match(/<video[^>]*>/)[0];
+  assert.match(video, /data-src="\/media\/one\/clip.mp4"/);
+  assert.match(video, /preload="none"/);
+  assert.doesNotMatch(video, /\s(?:poster|width|height)=/);
+  assert.doesNotMatch(html, /project-media--portrait/);
 });

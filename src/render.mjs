@@ -29,12 +29,17 @@ function projectMap(projects) {
 
 function renderMedia(project) {
   const media = project.media;
+  const { width, height } = media.dimensions || {};
+  const sized = [width, height].every(value => Number.isFinite(value) && value > 0);
+  const dimensions = sized ? ` width="${width}" height="${height}"` : '';
+  const portrait = sized && height > width;
+  const ratio = sized ? ` style="--media-ratio: ${width} / ${height}"` : '';
   const frame = media.type === 'video'
-    ? `<video data-lazy-video data-src="${escape(media.src)}"${media.poster ? ` poster="${escape(media.poster)}"` : ''} width="1440" height="900" muted playsinline loop preload="none" aria-label="${escape(media.alt)}">Your browser does not support this video.</video>
+    ? `<video data-lazy-video data-src="${escape(media.src)}"${media.poster ? ` poster="${escape(media.poster)}"` : ''}${dimensions} muted playsinline loop preload="none" aria-label="${escape(media.alt)}">Your browser does not support this video.</video>
        <button type="button" class="video-toggle" data-video-toggle data-project-name="${escape(project.name)}" aria-label="Play video for ${escape(project.name)}" hidden><span data-video-label>Play video</span><svg class="icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m9 5 10 7-10 7V5Z" stroke="currentColor" stroke-width="1.5"/></svg></button>
        <noscript><a class="video-fallback" href="${escape(media.src)}">Watch the ${escape(project.name)} recording ${arrow}</a></noscript>`
-    : `<img src="${escape(media.src)}" alt="${escape(media.alt)}" width="1440" height="900" loading="lazy" decoding="async">`;
-  return `<figure class="project-media">${frame}</figure>`;
+    : `<img src="${escape(media.src)}" alt="${escape(media.alt)}"${dimensions} loading="lazy" decoding="async">`;
+  return `<figure class="project-media${portrait ? ' project-media--portrait' : ''}"${ratio}>${frame}</figure>`;
 }
 
 function renderProject(project, index) {

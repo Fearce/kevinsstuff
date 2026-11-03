@@ -10,5 +10,8 @@
     "preview": "node scripts/preview.mjs",
     "check": "node scripts/check.mjs",
     "test": "node --test test/*.test.mjs"
+  },
+  "devDependencies": {
+    "image-size": "2.0.4"
   }
 }

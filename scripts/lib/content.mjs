@@ -1,5 +1,6 @@
 import { readFile, stat } from 'node:fs/promises';
 import { resolve } from 'node:path';
+import { imageDimensions } from './media.mjs';
 
 function fail(path, message) {
   throw new Error(`${path}: ${message}`);
@@ -104,6 +105,10 @@ export async function loadContent(root) {
         if (!(await stat(file)).isFile()) throw new Error('not a file');
       } catch { throw new Error(`Missing media for ${project.slug}: public${asset}`); }
     }
+    const preview = project.media.type === 'image' ? project.media.src : project.media.poster;
+    project.media.dimensions = preview
+      ? await imageDimensions(resolve(root, 'public', preview.slice(1)))
+      : undefined;
   }
   return content;
 }

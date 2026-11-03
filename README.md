@@ -19,7 +19,7 @@ Each project gets a tagline, a few sentences, its tech tags and one short demo: 
 ## Develop
 
 ```sh
-npm ci              # no dependencies; just checks the lockfile
+npm ci              # installs the build-only image metadata reader
 npm run check       # validates content and source
 npm test            # content and build-output tests
 npm run build       # writes dist/
