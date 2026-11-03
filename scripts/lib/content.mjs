@@ -69,6 +69,10 @@ export function validateContent(site, data) {
     slugs.add(project.slug);
     for (const field of ['year', 'category']) if (project[field] !== undefined) text(project[field], `${path}.${field}`);
     if (typeof project.order !== 'number' || !Number.isFinite(project.order)) fail(`${path}.order`, 'expected a finite number');
+    if (project.features !== undefined) {
+      list(project.features, `${path}.features`);
+      project.features.forEach((feature, index) => text(feature, `${path}.features[${index}]`));
+    }
     list(project.tags, `${path}.tags`);
     project.tags.forEach((tag, index) => text(tag, `${path}.tags[${index}]`));
     if (new Set(project.tags).size !== project.tags.length) fail(`${path}.tags`, 'tags must be unique');

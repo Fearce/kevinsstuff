@@ -27,6 +27,19 @@ test('missing required copy and duplicate project identities fail with useful pa
   assert.throws(() => validateContent(site, data), /duplicate slug: one/);
 });
 
+test('project features are optional and accept only nonblank strings', () => {
+  for (const features of [undefined, [], ['One useful feature', 'Another feature']]) {
+    const { site, data } = fixture();
+    data.projects[0].features = features;
+    assert.doesNotThrow(() => validateContent(site, data));
+  }
+  for (const features of [null, 'A feature', [''], ['  '], ['Valid', 42]]) {
+    const { site, data } = fixture();
+    data.projects[0].features = features;
+    assert.throws(() => validateContent(site, data), /projects\.projects\[0\]\.features/);
+  }
+});
+
 test('untrusted URL protocols and embedded credentials are rejected', () => {
   for (const value of ['javascript:alert(1)', 'data:text/html,test', '//example.com', 'https://user:secret@example.com']) {
     const { site, data } = fixture();
@@ -71,19 +84,51 @@ test('video output defers network loading and supplies accessible manual control
   assert.match(html, /muted playsinline loop preload="none"/);
   assert.doesNotMatch(html, / autoplay[ >]/);
   assert.match(html, /aria-label="Play video for One"/);
+  assert.match(html, /data-video-controls hidden/);
+  assert.match(html, /<select data-video-speed aria-label="Playback speed for One">/);
+  assert.match(html, /<option value="1" selected>1×<\/option>/);
+  assert.match(html, /<option value="0\.5">0\.5×<\/option>/);
+  assert.match(html, /<option value="0\.25">0\.25×<\/option>/);
 });
 
-test('real image and video poster dimensions reach the rendered previews', async () => {
-  const content = await loadContent(fileURLToPath(new URL('../', import.meta.url)));
-  for (const [slug, width, height] of [['ggo', 1280, 664], ['d2r', 1280, 720], ['ggs', 1280, 800], ['mhn', 360, 660]]) {
-    assert.deepEqual(content.projects.find(project => project.slug === slug).media.dimensions, { width, height });
+test('project info uses a native disclosure with escaped feature text', () => {
+  const { site, data } = fixture();
+  data.projects[0].features = ['Read <script> as text', 'A & B'];
+  const html = render(validateContent(site, data), { css: '/assets/styles.css', js: '/assets/main.js' });
+  assert.match(html, /<details class="project-info" data-project-info><summary>/);
+  assert.match(html, /Info<span class="sr-only"> about One<\/span>/);
+  assert.match(html, /<li>Read &lt;script&gt; as text<\/li><li>A &amp; B<\/li>/);
+  assert.doesNotMatch(html, /<details[^>]*\s(?:open|hidden)(?:\s|>)/);
+  assert.doesNotMatch(html, /data-video-speed/);
+  for (const features of [undefined, []]) {
+    data.projects[0].features = features;
+    assert.doesNotMatch(render(validateContent(site, data), { css: '/assets/styles.css', js: '/assets/main.js' }), /data-project-info/);
   }
+});
+
+test('real media dimensions reach their rendered previews as the assets change', async () => {
+  const content = await loadContent(fileURLToPath(new URL('../', import.meta.url)));
   const html = render(content, { css: '/assets/styles.css', js: '/assets/main.js' });
-  assert.match(html, /<img src="\/media\/ggo\/ggo.webp"[^>]*width="1280" height="664"/);
-  assert.match(html, /<img src="\/media\/d2r\/d2r.webp"[^>]*width="1280" height="720"/);
-  assert.match(html, /<figure class="project-media project-media--portrait" style="--media-ratio: 360 \/ 660">/);
-  assert.match(html, /<video[^>]*poster="\/media\/mhn\/poster.webp" width="360" height="660"/);
-  assert.doesNotMatch(html, /width="1440" height="900"/);
+  const previews = [...html.matchAll(/<(?:img|video)\b[^>]*>/g)].map(match => match[0]);
+  assert.equal(previews.length, content.projects.length);
+  content.projects.forEach((project, index) => {
+    const { width, height } = project.media.dimensions;
+    assert.ok(Number.isInteger(width) && width > 0, `${project.slug} has its media width`);
+    assert.ok(Number.isInteger(height) && height > 0, `${project.slug} has its media height`);
+    assert.ok(previews[index].includes(`width="${width}" height="${height}"`));
+    assert.ok(previews[index].includes(`"${project.media.src}"`));
+  });
+});
+
+test('portrait previews preserve their measured shape while landscape previews stay wide', () => {
+  const { site, data } = fixture();
+  data.projects[0].media.dimensions = { width: 800, height: 450 };
+  data.projects.push({ ...structuredClone(data.projects[0]), slug: 'two', order: 2, media: { type: 'video', src: '/media/two/clip.mp4', poster: '/media/two/poster.webp', alt: 'Portrait recording', dimensions: { width: 320, height: 640 } } });
+  const html = render(validateContent(site, data), { css: '/assets/styles.css', js: '/assets/main.js' });
+  assert.match(html, /<figure class="project-media" style="--media-ratio: 800 \/ 450">/);
+  assert.match(html, /<img[^>]*width="800" height="450"/);
+  assert.match(html, /<figure class="project-media project-media--portrait" style="--media-ratio: 320 \/ 640">/);
+  assert.match(html, /<video[^>]*width="320" height="640"/);
 });
 
 test('video without a poster keeps deferred loading and omits invented dimensions', () => {

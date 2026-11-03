@@ -69,10 +69,17 @@
 
   for (const video of videos) {
     const button = video.parentElement.querySelector('[data-video-toggle]');
+    const speed = video.parentElement.querySelector('[data-video-speed]');
     const state = { inView: false, userPaused: false };
     states.set(video, state);
     video.muted = true;
-    button.hidden = false;
+    video.parentElement.querySelector('[data-video-controls]').hidden = false;
+    speed.addEventListener('change', () => {
+      const rate = Number(speed.value);
+      if (![1, 0.5, 0.25].includes(rate)) return;
+      video.defaultPlaybackRate = rate;
+      video.playbackRate = rate;
+    });
     button.addEventListener('click', () => {
       if (video.paused) { state.userPaused = false; play(video); }
       else { state.userPaused = true; video.pause(); }

@@ -1,5 +1,6 @@
 const arrow = '<svg class="icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 19 19 5M5 5h14v14" stroke="currentColor" stroke-width="1.5"/></svg>';
 const down = '<svg class="icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 4v16m-6-6 6 6 6-6" stroke="currentColor" stroke-width="1.5"/></svg>';
+const info = '<svg class="icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.5"/><path d="M12 11v6" stroke="currentColor" stroke-width="1.5"/><circle cx="12" cy="7.5" r="1" fill="currentColor"/></svg>';
 
 export function escape(value) {
   return String(value).replace(/[&<>"']/g, character => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[character]);
@@ -36,7 +37,10 @@ function renderMedia(project) {
   const ratio = sized ? ` style="--media-ratio: ${width} / ${height}"` : '';
   const frame = media.type === 'video'
     ? `<video data-lazy-video data-src="${escape(media.src)}"${media.poster ? ` poster="${escape(media.poster)}"` : ''}${dimensions} muted playsinline loop preload="none" aria-label="${escape(media.alt)}">Your browser does not support this video.</video>
-       <button type="button" class="video-toggle" data-video-toggle data-project-name="${escape(project.name)}" aria-label="Play video for ${escape(project.name)}" hidden><span data-video-label>Play video</span><svg class="icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m9 5 10 7-10 7V5Z" stroke="currentColor" stroke-width="1.5"/></svg></button>
+       <div class="video-controls" data-video-controls hidden>
+         <label class="video-speed"><span aria-hidden="true">Speed</span><select data-video-speed aria-label="Playback speed for ${escape(project.name)}"><option value="1" selected>1×</option><option value="0.5">0.5×</option><option value="0.25">0.25×</option></select></label>
+         <button type="button" class="video-toggle" data-video-toggle data-project-name="${escape(project.name)}" aria-label="Play video for ${escape(project.name)}" aria-pressed="false"><span data-video-label>Play video</span><svg class="icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m9 5 10 7-10 7V5Z" stroke="currentColor" stroke-width="1.5"/></svg></button>
+       </div>
        <noscript><a class="video-fallback" href="${escape(media.src)}">Watch the ${escape(project.name)} recording ${arrow}</a></noscript>`
     : `<img src="${escape(media.src)}" alt="${escape(media.alt)}"${dimensions} loading="lazy" decoding="async">`;
   return `<figure class="project-media${portrait ? ' project-media--portrait' : ''}"${ratio}>${frame}</figure>`;
@@ -51,6 +55,7 @@ function renderProject(project, index) {
       <p class="project-description">${escape(project.description)}</p>
       ${project.tags.length ? `<ul class="tags" aria-label="Project topics">${project.tags.map(tag => `<li>${escape(tag)}</li>`).join('')}</ul>` : ''}
       ${project.links.live || project.links.repo ? `<div class="project-links">${project.links.live ? external(project.links.live, 'Visit website') : ''}${project.links.repo ? external(project.links.repo, 'View source') : ''}</div>` : ''}
+      ${project.features?.length ? `<details class="project-info" data-project-info><summary>${info}<span>Info<span class="sr-only"> about ${escape(project.name)}</span></span><svg class="icon info-chevron" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m7 10 5 5 5-5" stroke="currentColor" stroke-width="1.5"/></svg></summary><ul>${project.features.map(feature => `<li>${escape(feature)}</li>`).join('')}</ul></details>` : ''}
     </div>
     ${renderMedia(project)}
   </article>`;
