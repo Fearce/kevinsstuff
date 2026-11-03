@@ -26,8 +26,8 @@ SECRET_PREFIX = 'KEVINSSTUFF_DEPLOY_'
 
 # Validates nginx.conf in a throwaway container before the live one is recreated with it.
 APPLY_INFRA = f'''set -eu
+mkdir -p {HOME}/site/releases {HOME}/deploy
 cd {HOME}
-mkdir -p site/releases deploy
 staged=$(mktemp -d {HOME}/.staged-XXXXXX)
 trap 'rm -rf "$staged"' EXIT
 tar -x -C "$staged"
