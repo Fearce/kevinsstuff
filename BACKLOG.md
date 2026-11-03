@@ -12,10 +12,11 @@
 ## In progress
 
 - **Portfolio content, demo media and final live verification of kevinsstuff.com** (Quill Pebblecap, 2026-11-03; content in 6f2fdf9 + 69ba691).
-- **guildpolls.kevinsstuff.com: guild polls with per-IP approval voting, live verification and README** (Ballot Burrow, 2026-11-03).
 
 ## Done (newest first; keep the last 20)
 
+- 2026-11-03 **guildpolls.kevinsstuff.com: password-gated guild polls with per-IP approval voting** (2cec91f, Ballot Burrow): live on 4f2a764; deploys [41720358215](https://github.com/Fearce/kevinsstuff/actions/runs/41720358215) and [41722195472](https://github.com/Fearce/kevinsstuff/actions/runs/41722195472) passed.
+  - Live checks passed: cap, duplicates, XSS, vote, unvote and reset. aws-01 and the desktop counted as separate voters; spoofed headers were ignored; votes survived a restart and a redeploy. [README](apps/guildpolls/README.md).
 - 2026-11-03 **Per-clip speed controls and project feature details** (cb65dc5, Flint Willow; GPT-6 Astra xHigh): live in f81e3c2; [deployment passed](https://github.com/Fearce/kevinsstuff/actions/runs/41720358312).
   - 14 tests, build, four viewport checks, keyboard/no-JS Info and independent clip rates passed; [screenshots and proof](docs/gui-controls.html). Replacement captures remain with the content task.
 - 2026-11-03 **Minimal animated portfolio GUI with natural media proportions** (4e692f4, Flint Willow; GPT-6 Astra xHigh): [deployment CI passed](https://github.com/Fearce/kevinsstuff/actions/runs/41718198202); public release matches the commit.
