@@ -4,9 +4,9 @@ Kevin's portfolio: a short, quiet tour of the things he builds — an AI agent o
 
 ![The landing page: headline on the left, an animated map of the eight projects on the right](docs/screenshot-desktop.png)
 
-Each project gets a tagline, a few sentences, its tech tags and one short demo: a screenshot or a muted looping clip.
+Each project gets a tagline, a few sentences, its tech tags, an Info list of key features and one short demo: a fast, muted, looping clip that clicks through several screens, with 0.5× and 0.25× speeds for a closer look.
 
-![A project entry: GG Orchestrator with its description, tags and board screenshot](docs/screenshot-projects.png)
+![A project entry: GG Orchestrator with its description, tags, open Info list and demo clip](docs/screenshot-projects.png)
 
 <img src="docs/screenshot-mobile.png" alt="The landing page on a phone" width="320">
 
@@ -14,7 +14,7 @@ Each project gets a tagline, a few sentences, its tech tags and one short demo: 
 
 - **No framework, no runtime dependencies.** A Node 22 build script (`scripts/build.mjs`) renders `src/` plus the JSON content into static HTML, one hashed stylesheet and one small script in `dist/`.
 - **Content is data.** Projects live in `content/projects.json`, the name, about and contact copy in `content/site.json`, demo media in `public/media/<slug>/`. Editing the site's words never touches code.
-- **Small on purpose.** The whole first visit is about 1.1 MB, almost all of it demo media (WebP screenshots and one short MP4); the HTML, CSS and JS together are under 40 KB. Media below the fold loads lazily.
+- **Small on purpose.** The first view is under 100 KB: HTML, CSS, JS and WebP posters. Each clip (0.3–1.4 MB, about 4.3 MB for all eight) loads only when its card scrolls into view.
 
 ## Develop
 

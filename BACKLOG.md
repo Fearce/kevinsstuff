@@ -11,9 +11,12 @@
 
 ## In progress
 
-- **Portfolio content, demo media and final live verification of kevinsstuff.com** (Quill Pebblecap, 2026-11-03; content in 6f2fdf9 + 69ba691).
+_(none: claim from Ready)_
 
 ## Done (newest first; keep the last 20)
+
+- 2026-11-03 **Portfolio content, multi-screen demo clips and live verification of kevinsstuff.com** (22849b4, Quill Pebblecap): [deploy 41734686809](https://github.com/Fearce/kevinsstuff/actions/runs/41734686809) passed.
+  - Checked live on apex and www (www redirects): 8 clips play, 0.5×/0.25× speeds apply, Info lists show and all 4 outbound links return 200. First view about 80 KB.
 
 - 2026-11-03 **guildpolls.kevinsstuff.com: password-gated guild polls with per-IP approval voting** (2cec91f, Ballot Burrow): live on 4f2a764; deploys [41720358215](https://github.com/Fearce/kevinsstuff/actions/runs/41720358215) and [41722195472](https://github.com/Fearce/kevinsstuff/actions/runs/41722195472) passed.
   - Live checks passed: cap, duplicates, XSS, vote, unvote and reset. aws-01 and the desktop counted as separate voters; spoofed headers were ignored; votes survived a restart and a redeploy. [README](apps/guildpolls/README.md).
