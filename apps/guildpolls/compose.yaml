@@ -1,0 +1,42 @@
+# Runs on the Hetzner edge box as its own compose project in ~/guildpolls. It publishes no host port:
+# the edge Caddy (container sprogbroen-caddy) reaches it by name on the shared network.
+# deploy/receive.py builds each release as guildpolls:<commit> and points guildpolls:live at it;
+# .env (written by deploy/install.py, never committed) holds GUILDPOLLS_POLL_PASSWORD.
+name: guildpolls
+
+services:
+  guildpolls:
+    image: guildpolls:live
+    container_name: guildpolls
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      # Only the edge Caddy may vouch for a client address through X-Forwarded-For.
+      TRUSTED_PROXIES: sprogbroen-caddy
+    volumes:
+      - guildpolls-data:/data
+    networks:
+      - edge
+    read_only: true
+    tmpfs:
+      - /tmp
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
+    mem_limit: 128m
+    cpus: 0.5
+    logging:
+      driver: json-file
+      options:
+        max-size: 1m
+        max-file: "3"
+
+volumes:
+  guildpolls-data:
+    name: guildpolls-data
+
+networks:
+  edge:
+    external: true
+    name: sprogbroen-prod_default

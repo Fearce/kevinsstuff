@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Guild polls</title>
+  <meta name="description" content="Polls for the guild: vote for everything you like, suggest options, change your mind any time.">
+  <meta name="theme-color" content="#f4eee2" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#1b1d1a" media="(prefers-color-scheme: dark)">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="preload" href="/fonts/fraunces.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/fonts/instrument-sans.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="/app.css">
+  <script type="module" src="/app.js"></script>
+</head>
+<body>
+  <main class="page">
+    <div id="home-view" class="view" hidden>
+      <header class="masthead">
+        <p class="eyebrow">Guild polls</p>
+        <h1>Let’s decide</h1>
+        <p class="lede">Polls for the guild. Vote for everything you like, suggest options, change your mind any time.</p>
+      </header>
+
+      <section class="section" aria-labelledby="polls-heading">
+        <div class="section-head">
+          <h2 id="polls-heading">Polls</h2>
+          <p class="section-summary" id="polls-summary"></p>
+        </div>
+        <ul class="poll-list" id="poll-list" aria-busy="true"></ul>
+      </section>
+
+      <form class="new-poll" id="new-poll" autocomplete="off" novalidate>
+        <h2>Start a poll</h2>
+        <label class="field-label" for="new-poll-title">Question</label>
+        <input class="field" id="new-poll-title" name="title" type="text" maxlength="100" required
+               autocapitalize="sentences" placeholder="Which night should we raid?">
+        <label class="field-label" for="new-poll-password">Guild password</label>
+        <div class="field-row">
+          <input class="field" id="new-poll-password" name="password" type="password" required
+                 autocomplete="current-password" enterkeyhint="go">
+          <button type="submit" class="button button-primary">Create poll</button>
+        </div>
+        <p class="field-meta" id="new-poll-meta" aria-live="polite">Ask in guild chat for the password. It keeps strangers from spamming polls.</p>
+      </form>
+    </div>
+
+    <div id="poll-view" class="view" hidden>
+      <a class="back" href="/" data-nav>
+        <svg viewBox="0 0 20 20" width="18" height="18" aria-hidden="true"><path d="M12.5 4.5L7 10l5.5 5.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        All polls
+      </a>
+      <header class="masthead">
+        <p class="eyebrow">Guild poll</p>
+        <h1 id="poll-title"></h1>
+        <p class="lede">Vote for everything you like. Tap an option again to take your vote back.</p>
+      </header>
+
+      <form class="propose" id="propose" autocomplete="off" novalidate>
+        <label class="field-label" for="propose-name">Suggest an option</label>
+        <div class="field-row">
+          <input class="field" id="propose-name" name="name" type="text" maxlength="60" required
+                 enterkeyhint="send" autocapitalize="words" spellcheck="false" placeholder="Your idea">
+          <button type="submit" class="button button-primary">Add</button>
+        </div>
+        <p class="field-meta" id="propose-meta" aria-live="polite"></p>
+      </form>
+
+      <section class="section" aria-labelledby="results-heading">
+        <div class="section-head">
+          <h2 id="results-heading">Standings</h2>
+          <p class="section-summary" id="results-summary" aria-live="polite"></p>
+        </div>
+        <ol class="options" id="options" aria-busy="true"></ol>
+        <p class="empty" id="empty" hidden>Nothing here yet. Suggest the first option above.</p>
+      </section>
+
+      <footer class="footer">
+        <button type="button" class="button button-quiet" id="reset" disabled>Reset my votes</button>
+        <p class="fineprint">One vote per option for each internet connection, so people sharing a home network share their votes. Each connection can add up to 10 options per poll.</p>
+      </footer>
+    </div>
+
+    <div id="missing-view" class="view" hidden>
+      <header class="masthead">
+        <p class="eyebrow">Guild polls</p>
+        <h1>No such poll</h1>
+        <p class="lede">That link doesn’t match any poll. It may have been mistyped.</p>
+      </header>
+      <a class="button button-primary button-link" href="/" data-nav>See all polls</a>
+    </div>
+  </main>
+  <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+</body>
+</html>

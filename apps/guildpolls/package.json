@@ -1,0 +1,12 @@
+{
+  "name": "guildpolls",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Guild name poll for guildpolls.kevinsstuff.com: approval voting, one vote per IP per option.",
+  "engines": { "node": ">=22.13" },
+  "scripts": {
+    "start": "node --disable-warning=ExperimentalWarning src/main.js",
+    "test": "node --disable-warning=ExperimentalWarning --test test/*.test.js"
+  }
+}

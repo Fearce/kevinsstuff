@@ -1,0 +1,102 @@
+name: Deploy guildpolls.kevinsstuff.com
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'apps/guildpolls/**'
+      - '!apps/guildpolls/README.md'
+      - '!apps/guildpolls/docs/**'
+      - '.github/workflows/guildpolls.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+# One production deploy at a time; a newer push waits instead of cancelling a release mid-upload.
+concurrency:
+  group: guildpolls-production
+  cancel-in-progress: false
+
+defaults:
+  run:
+    working-directory: apps/guildpolls
+
+jobs:
+  deploy:
+    name: Test, deploy and verify guildpolls.kevinsstuff.com
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - name: Check out the pushed commit
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Test the app
+        run: npm test
+
+      - name: Test the release receiver
+        run: python3 -m unittest discover -s deploy -p 'test_*.py'
+
+      - name: Stamp and package the release
+        run: |
+          staging="$RUNNER_TEMP/release/guildpolls"
+          mkdir -p "$staging"
+          cp -R package.json src public "$staging/"
+          printf '{"commit":"%s"}\n' "$GITHUB_SHA" > "$staging/release.json"
+          tar -czf "$RUNNER_TEMP/release.tar.gz" -C "$RUNNER_TEMP/release" guildpolls
+          du -h "$RUNNER_TEMP/release.tar.gz"
+
+      - name: Prepare the deploy key
+        env:
+          SSH_KEY: ${{ secrets.GUILDPOLLS_DEPLOY_SSH_KEY }}
+          TARGET: ${{ secrets.GUILDPOLLS_DEPLOY_TARGET }}
+          KNOWN_HOSTS: ${{ secrets.GUILDPOLLS_DEPLOY_KNOWN_HOSTS }}
+        run: |
+          for name in SSH_KEY TARGET KNOWN_HOSTS; do
+            if [ -z "${!name}" ]; then
+              echo "::error::Deploy secret GUILDPOLLS_DEPLOY_$name is missing. Run 'python apps/guildpolls/deploy/install.py --rotate-key' with the owner key."
+              exit 1
+            fi
+          done
+          ssh_dir="$RUNNER_TEMP/deploy-ssh"
+          (umask 077 && mkdir -p "$ssh_dir" \
+            && printf '%s\n' "$SSH_KEY" > "$ssh_dir/key" \
+            && printf '%s\n' "$KNOWN_HOSTS" > "$ssh_dir/known_hosts" \
+            && printf '%s' "$TARGET" > "$ssh_dir/target")
+
+      - name: Deploy
+        run: |
+          ssh_dir="$RUNNER_TEMP/deploy-ssh"
+          ssh -i "$ssh_dir/key" -o IdentitiesOnly=yes -o BatchMode=yes \
+            -o StrictHostKeyChecking=yes -o UserKnownHostsFile="$ssh_dir/known_hosts" \
+            -o ConnectTimeout=20 -o ServerAliveInterval=15 -o ServerAliveCountMax=8 \
+            "$(cat "$ssh_dir/target")" "deploy $GITHUB_SHA" < "$RUNNER_TEMP/release.tar.gz"
+
+      - name: Verify guildpolls.kevinsstuff.com serves this commit
+        run: |
+          origin=https://guildpolls.kevinsstuff.com
+          for attempt in $(seq 1 10); do
+            served=$(curl -fsS --max-time 10 "$origin/api/health" | jq -r .release || true)
+            if [ "$served" = "$GITHUB_SHA" ]; then break; fi
+            echo "attempt $attempt: health reports '${served}'"
+            sleep 3
+          done
+          if [ "$served" != "$GITHUB_SHA" ]; then
+            echo "::error::$origin/api/health reports '${served}', expected $GITHUB_SHA"
+            exit 1
+          fi
+          curl -fsS --max-time 10 -o /dev/null -w 'GET / -> %{http_code}\n' "$origin/"
+          curl -fsS --max-time 10 "$origin/api/polls" | jq -e '.polls | type == "array"' >/dev/null
+          echo "$origin serves $GITHUB_SHA"
+
+      - name: Remove the deploy key
+        if: always()
+        working-directory: .
+        run: rm -rf "$RUNNER_TEMP/deploy-ssh"
