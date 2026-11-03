@@ -12,3 +12,4 @@
 ## In progress
 
 - **Build the minimal portfolio GUI and verify real content at mobile, tablet, and desktop widths** (Flint Willow, 2026-11-03; GUI implementation: GPT-6 Astra xHigh).
+- **Portfolio content, demo media and final live verification of kevinsstuff.com** (Quill Pebblecap, 2026-11-03; content in 6f2fdf9 + 69ba691).
