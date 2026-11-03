@@ -4,7 +4,7 @@
       "slug": "ggo",
       "name": "GG Orchestrator",
       "tagline": "A director's console for a team of AI coding agents.",
-      "description": "GGO plans, dispatches and reviews work across many coding agents at once. Each task gets its own branch, a QA pass and a reviewer before it lands, and the whole office is visible from one board. Over 3,600 commits of daily-driven tooling.",
+      "description": "GGO plans, dispatches and tracks work across many coding agents at once. Tasks get their own branch, with optional QA and review passes before they land, and the whole office is visible from one board. Over 3,600 commits of daily-driven tooling.",
       "tags": [
         "TypeScript",
         "React",
@@ -26,7 +26,7 @@
       "slug": "ggs",
       "name": "Garden Gnome Swarm",
       "tagline": "One private compute fleet out of every machine I own.",
-      "description": "GGS joins desktops, a Steam Deck, a Raspberry Pi and cloud VMs into a single swarm over a private mesh. Each device advertises a CPU and memory budget that always yields to its owner, and services can be placed, started and inspected from one dashboard.",
+      "description": "GGS joins desktops, a Steam Deck, a Raspberry Pi and cloud VMs into one swarm over a private mesh. Each device advertises a CPU and memory budget that always yields to its owner, and every machine's containers can be started, stopped and inspected from one dashboard.",
       "tags": [
         "Kubernetes",
         "K3s",
