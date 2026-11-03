@@ -1,0 +1,14 @@
+{
+  "name": "kevinsstuff",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Kevin's small, static portfolio. Content lives in JSON.",
+  "engines": { "node": ">=22" },
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "preview": "node scripts/preview.mjs",
+    "check": "node scripts/check.mjs",
+    "test": "node --test test/*.test.mjs"
+  }
+}
