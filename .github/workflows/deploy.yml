@@ -58,11 +58,11 @@ jobs:
 
       - name: Prepare the deploy key
         env:
-          KEY: ${{ secrets.KEVINSSTUFF_DEPLOY_SSH_KEY }}
+          SSH_KEY: ${{ secrets.KEVINSSTUFF_DEPLOY_SSH_KEY }}
           TARGET: ${{ secrets.KEVINSSTUFF_DEPLOY_TARGET }}
           KNOWN_HOSTS: ${{ secrets.KEVINSSTUFF_DEPLOY_KNOWN_HOSTS }}
         run: |
-          for name in KEY TARGET KNOWN_HOSTS; do
+          for name in SSH_KEY TARGET KNOWN_HOSTS; do
             if [ -z "${!name}" ]; then
               echo "::error::Deploy secret KEVINSSTUFF_DEPLOY_$name is missing. Run 'python deploy/install.py --rotate-key' with the owner key."
               exit 1
@@ -70,7 +70,7 @@ jobs:
           done
           ssh_dir="$RUNNER_TEMP/deploy-ssh"
           (umask 077 && mkdir -p "$ssh_dir" \
-            && printf '%s\n' "$KEY" > "$ssh_dir/key" \
+            && printf '%s\n' "$SSH_KEY" > "$ssh_dir/key" \
             && printf '%s\n' "$KNOWN_HOSTS" > "$ssh_dir/known_hosts" \
             && printf '%s' "$TARGET" > "$ssh_dir/target")
 
