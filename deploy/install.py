@@ -132,8 +132,13 @@ def rotate_key(owner_key):
         # OpenSSH on the Linux runner rejects a key carrying Windows line endings.
         set_secret('SSH_KEY', key.read_bytes().replace(b'\r\n', b'\n'))
     set_secret('TARGET', HOST.encode())
-    known = run(['ssh-keyscan', '-t', 'ed25519', HOST.split('@')[1]]).stdout.replace(b'\r\n', b'\n')
-    set_secret('KNOWN_HOSTS', known)
+    set_secret('KNOWN_HOSTS', known_hosts_line(owner_key))
+
+
+def known_hosts_line(owner_key):
+    # Read over the owner's authenticated session; Windows' bundled ssh-keyscan cannot negotiate this host's KEX.
+    key_type, key = ssh(owner_key, 'cat /etc/ssh/ssh_host_ed25519_key.pub').stdout.decode().split()[:2]
+    return f'{HOST.split("@")[1]} {key_type} {key}\n'.encode()
 
 
 def main():
