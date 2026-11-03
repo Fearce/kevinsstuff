@@ -1,0 +1,29 @@
+services:
+  web:
+    image: nginx:1.28-alpine
+    container_name: kevinsstuff-web
+    restart: unless-stopped
+    mem_limit: 48m
+    cpus: 0.25
+    read_only: true
+    security_opt:
+      - no-new-privileges:true
+    volumes:
+      - ./site:/srv/site:ro
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro
+    tmpfs:
+      - /var/cache/nginx
+      - /var/run
+      - /tmp
+    networks:
+      - edge
+    healthcheck:
+      test: ["CMD", "wget", "-q", "-O", "/dev/null", "http://127.0.0.1:8080/healthz"]
+      interval: 30s
+      timeout: 3s
+      retries: 3
+
+networks:
+  edge:
+    external: true
+    name: sprogbroen-prod_default

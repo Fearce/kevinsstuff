@@ -1,0 +1,90 @@
+name: Deploy kevinsstuff.com
+
+on:
+  push:
+    branches: [main]
+    paths-ignore:
+      - 'apps/guildpolls/**'
+      - '.github/workflows/guildpolls.yml'
+      - 'README.md'
+      - 'docs/**'
+      - 'BACKLOG.md'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+# One production deploy at a time; a newer push waits instead of cancelling a release mid-upload.
+concurrency:
+  group: kevinsstuff-production
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    name: Build, deploy and verify kevinsstuff.com
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - name: Check out the pushed commit
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install
+        run: npm ci
+
+      - name: Check content and source
+        run: npm run check
+
+      - name: Test the site
+        run: npm test
+
+      - name: Test the release receiver
+        run: python3 -m unittest discover -s deploy -p 'test_*.py'
+
+      - name: Build
+        run: npm run build
+
+      - name: Stamp and package the release
+        run: |
+          printf '{"commit":"%s","builtAt":"%s"}\n' "$GITHUB_SHA" "$(date -u +%Y-%m-%dT%H:%M:%SZ)" > dist/release.json
+          tar -czf "$RUNNER_TEMP/release.tar.gz" dist
+          du -h "$RUNNER_TEMP/release.tar.gz"
+
+      - name: Prepare the deploy key
+        env:
+          KEY: ${{ secrets.KEVINSSTUFF_DEPLOY_SSH_KEY }}
+          TARGET: ${{ secrets.KEVINSSTUFF_DEPLOY_TARGET }}
+          KNOWN_HOSTS: ${{ secrets.KEVINSSTUFF_DEPLOY_KNOWN_HOSTS }}
+        run: |
+          for name in KEY TARGET KNOWN_HOSTS; do
+            if [ -z "${!name}" ]; then
+              echo "::error::Deploy secret KEVINSSTUFF_DEPLOY_$name is missing. Run 'python deploy/install.py --rotate-key' with the owner key."
+              exit 1
+            fi
+          done
+          ssh_dir="$RUNNER_TEMP/deploy-ssh"
+          (umask 077 && mkdir -p "$ssh_dir" \
+            && printf '%s\n' "$KEY" > "$ssh_dir/key" \
+            && printf '%s\n' "$KNOWN_HOSTS" > "$ssh_dir/known_hosts" \
+            && printf '%s' "$TARGET" > "$ssh_dir/target")
+
+      - name: Deploy
+        run: |
+          ssh_dir="$RUNNER_TEMP/deploy-ssh"
+          ssh -i "$ssh_dir/key" -o IdentitiesOnly=yes -o BatchMode=yes \
+            -o StrictHostKeyChecking=yes -o UserKnownHostsFile="$ssh_dir/known_hosts" \
+            -o ConnectTimeout=20 -o ServerAliveInterval=15 -o ServerAliveCountMax=8 \
+            "$(cat "$ssh_dir/target")" "deploy $GITHUB_SHA" < "$RUNNER_TEMP/release.tar.gz"
+
+      - name: Verify kevinsstuff.com serves this commit
+        run: node deploy/verify-live.mjs --origin https://kevinsstuff.com --www https://www.kevinsstuff.com --commit "$GITHUB_SHA" --dist dist
+
+      - name: Remove the deploy key
+        if: always()
+        run: rm -rf "$RUNNER_TEMP/deploy-ssh"
