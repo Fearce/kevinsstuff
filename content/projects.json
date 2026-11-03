@@ -1,0 +1,175 @@
+{
+  "projects": [
+    {
+      "slug": "ggo",
+      "name": "GG Orchestrator",
+      "tagline": "A director's console for a team of AI coding agents.",
+      "description": "GGO plans, dispatches and reviews work across many coding agents at once. Each task gets its own branch, a QA pass and a reviewer before it lands, and the whole office is visible from one board. Over 3,600 commits of daily-driven tooling.",
+      "tags": [
+        "TypeScript",
+        "React",
+        "Node.js",
+        "Multi-agent",
+        "Git worktrees"
+      ],
+      "year": "2025–2026",
+      "category": "Developer tools",
+      "links": {},
+      "media": {
+        "type": "image",
+        "src": "/media/ggo/ggo.webp",
+        "alt": "GG Orchestrator board with tasks moving through plan, build, QA and review lanes"
+      },
+      "order": 1
+    },
+    {
+      "slug": "ggs",
+      "name": "Garden Gnome Swarm",
+      "tagline": "One private compute fleet out of every machine I own.",
+      "description": "GGS joins desktops, a Steam Deck, a Raspberry Pi and cloud VMs into a single swarm over a private mesh. Each device advertises a CPU and memory budget that always yields to its owner, and services can be placed, started and inspected from one dashboard.",
+      "tags": [
+        "Kubernetes",
+        "K3s",
+        "Tailscale",
+        "Node.js",
+        "Docker"
+      ],
+      "year": "2026",
+      "category": "Infrastructure",
+      "links": {},
+      "media": {
+        "type": "image",
+        "src": "/media/ggs/ggs.webp",
+        "alt": "Swarm dashboard showing five devices with their CPU and memory budgets and running workloads"
+      },
+      "order": 2
+    },
+    {
+      "slug": "gnomerang",
+      "name": "Gnomerang",
+      "tagline": "AI workflow automation for small businesses.",
+      "description": "A Swiss–Danish studio that turns repetitive office work into reliable automated workflows. Clients get agents wired into the tools they already use, with humans kept in the loop where it matters.",
+      "tags": [
+        "AI automation",
+        "AI agents",
+        "Consulting"
+      ],
+      "category": "Business",
+      "links": {
+        "live": "https://gnomerang.com"
+      },
+      "media": {
+        "type": "image",
+        "src": "/media/gnomerang/gnomerang.webp",
+        "alt": "Gnomerang landing page"
+      },
+      "order": 3
+    },
+    {
+      "slug": "sprogbroen",
+      "name": "Sprogbroen",
+      "tagline": "Danish for teenagers who just arrived.",
+      "description": "A learning platform for 14–18-year-old newcomers learning Danish as a second language. Lessons, exercises and audio are written for teenagers in Danish reception classes, not adapted from material for adults.",
+      "tags": [
+        "Next.js",
+        "TypeScript",
+        ".NET",
+        "PostgreSQL"
+      ],
+      "category": "Education",
+      "links": {
+        "live": "https://sprogbroen.dk"
+      },
+      "media": {
+        "type": "image",
+        "src": "/media/sprogbroen/sprogbroen.webp",
+        "alt": "Sprogbroen landing page"
+      },
+      "order": 4
+    },
+    {
+      "slug": "d2r",
+      "name": "D2R Overlay & Bot",
+      "tagline": "Reads the game's memory, then plays it.",
+      "description": "An overlay for Diablo II: Resurrected that reads live game state straight from memory: map, quests, inventory, gear and objectives. On top of it sits a supervised bot that levels a Sorceress through the acts on its own. Over 7,000 commits, built together with a friend.",
+      "tags": [
+        "C#",
+        ".NET",
+        "WPF",
+        "Memory reading",
+        "Automation"
+      ],
+      "category": "Game automation",
+      "links": {},
+      "media": {
+        "type": "image",
+        "src": "/media/d2r/d2r.webp",
+        "alt": "Diablo II: Resurrected with the overlay showing the current objective, quest log, map, build and inventory"
+      },
+      "order": 5
+    },
+    {
+      "slug": "wow",
+      "name": "WoW Leveling Farm",
+      "tagline": "Twelve characters leveling themselves, side by side.",
+      "description": "An autonomous World of Warcraft bot that takes fresh characters from level 1 upward without input: questing, combat, looting and travel. It runs many lanes in parallel across several game versions. More than 10,000 commits.",
+      "tags": [
+        "Python",
+        "C#",
+        "Computer vision",
+        "Automation"
+      ],
+      "category": "Game automation",
+      "links": {},
+      "media": {
+        "type": "image",
+        "src": "/media/wow/wow.webp",
+        "alt": "A grid of twelve World of Warcraft clients, each with a bot-controlled character questing"
+      },
+      "order": 6
+    },
+    {
+      "slug": "mhn",
+      "name": "Monster Hunter Now Bot",
+      "tagline": "Auto-fight for a mobile hunting game.",
+      "description": "A patched Android build of Monster Hunter Now with an in-game control panel. It aims, dodges and fires on its own, and handles crafting between hunts.",
+      "tags": [
+        "Android",
+        "APK patching",
+        "Python",
+        "JavaScript"
+      ],
+      "category": "Game automation",
+      "links": {},
+      "media": {
+        "type": "video",
+        "src": "/media/mhn/mhn.mp4",
+        "poster": "/media/mhn/poster.webp",
+        "alt": "The bot fighting a Fulgur Anjanath with a bowgun while Auto Fight is switched on"
+      },
+      "order": 7
+    },
+    {
+      "slug": "defend-your-castle",
+      "name": "Defend Your Castle",
+      "tagline": "A browser castle defence with a real leaderboard.",
+      "description": "A Unity game that runs in the browser. Waves get harder, 223 permanent upgrades keep you coming back, and the online leaderboard is server-authoritative so scores can't be faked.",
+      "tags": [
+        "Unity",
+        "C#",
+        "WebGL",
+        "Node.js"
+      ],
+      "category": "Game",
+      "links": {
+        "live": "https://defend.sprogbroen.dk"
+      },
+      "media": {
+        "type": "image",
+        "src": "/media/defend-your-castle/defend-your-castle.webp",
+        "alt": "Defend Your Castle title screen"
+      },
+      "order": 8
+    }
+  ]
+}

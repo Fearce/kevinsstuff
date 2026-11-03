@@ -1,0 +1,28 @@
+{
+  "name": "Kevin",
+  "title": "Kevin — software, automation and games",
+  "description": "Portfolio of Kevin, a Danish developer building AI agent tooling, small businesses and game bots.",
+  "url": "https://kevinsstuff.com",
+  "location": "Denmark",
+  "hero": {
+    "eyebrow": "Kevin's stuff",
+    "headline": "I build software that does the work for you.",
+    "description": "Agent orchestration, a home-grown compute swarm, two businesses and a handful of game bots that play better than I do."
+  },
+  "about": {
+    "heading": "About",
+    "paragraphs": [
+      "I'm a developer in Denmark. Most of what I build starts as a tool for myself and keeps growing until it runs on its own.",
+      "Lately that means running a team of AI coding agents every day, and the infrastructure to keep them busy."
+    ]
+  },
+  "contact": {
+    "heading": "Contact",
+    "text": "Want to talk about a project or an automation idea? Send me a mail.",
+    "email": "kevin@gnomerang.com",
+    "links": [
+      { "label": "GitHub", "url": "https://github.com/Fearce" },
+      { "label": "Gnomerang", "url": "https://gnomerang.com" }
+    ]
+  }
+}
