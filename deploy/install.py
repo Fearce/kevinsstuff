@@ -60,7 +60,8 @@ print('authorized_keys updated')
 
 
 def run(argv, data=None, check=True):
-    result = subprocess.run(argv, input=data, capture_output=True)
+    result = subprocess.run(argv, input=data, capture_output=True,
+                            creationflags=getattr(subprocess, 'CREATE_NO_WINDOW', 0))
     if check and result.returncode:
         sys.exit(f'{argv[0]} failed ({result.returncode}): {result.stderr.decode(errors="replace").strip()}')
     return result
