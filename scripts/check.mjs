@@ -12,7 +12,7 @@ async function files(directory) {
 }
 const source = (await Promise.all(['src', 'scripts', 'test'].map(directory => files(resolve(root, directory))))).flat();
 for (const file of source) {
-  const result = spawnSync(process.execPath, ['--check', file], { stdio: 'inherit' });
+  const result = spawnSync(process.execPath, ['--check', file], { stdio: 'inherit', windowsHide: true });
   if (result.status !== 0) process.exit(result.status || 1);
 }
 const content = await loadContent(root);

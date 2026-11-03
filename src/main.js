@@ -2,11 +2,16 @@
   const motion = window.matchMedia('(prefers-reduced-motion: reduce)');
   const root = document.documentElement;
   const motionButton = document.querySelector('[data-motion-toggle]');
+  const states = new Map();
   let motionPaused = motion.matches;
 
   function updateMotion() {
     const paused = motion.matches || motionPaused;
     root.dataset.motion = paused ? 'paused' : 'running';
+    for (const [video, state] of states) {
+      if (paused) video.pause();
+      else if (state.inView && !state.userPaused && !document.hidden) play(video);
+    }
     if (!motionButton) return;
     motionButton.hidden = motion.matches;
     motionButton.setAttribute('aria-pressed', String(paused));
@@ -31,7 +36,6 @@
   });
 
   const videos = [...document.querySelectorAll('[data-lazy-video]')];
-  const states = new Map();
 
   function load(video) {
     if (!video.getAttribute('src')) {
@@ -50,6 +54,7 @@
     button.querySelector('[data-video-label]').textContent = label;
     button.setAttribute('aria-label', `${label} for ${button.dataset.projectName}`);
     button.setAttribute('aria-pressed', String(!video.paused));
+    button.querySelector('path').setAttribute('d', video.paused ? 'm9 5 10 7-10 7V5Z' : 'M8 5v14M16 5v14');
   }
 
   const observer = 'IntersectionObserver' in window ? new IntersectionObserver(entries => {
@@ -57,7 +62,7 @@
       const video = entry.target;
       const state = states.get(video);
       state.inView = entry.isIntersecting && entry.intersectionRatio >= 0.25;
-      if (state.inView && !document.hidden && !motion.matches && !state.userPaused) play(video);
+      if (state.inView && !document.hidden && !motion.matches && !motionPaused && !state.userPaused) play(video);
       else if (!state.inView) video.pause();
     }
   }, { threshold: [0, 0.25] }) : null;
@@ -80,16 +85,12 @@
   motion.addEventListener('change', () => {
     motionPaused = motion.matches;
     updateMotion();
-    for (const [video, state] of states) {
-      if (motion.matches) video.pause();
-      else if (state.inView && !state.userPaused && !document.hidden) play(video);
-    }
   });
 
   document.addEventListener('visibilitychange', () => {
     for (const [video, state] of states) {
       if (document.hidden) video.pause();
-      else if (state.inView && !state.userPaused && !motion.matches) play(video);
+      else if (state.inView && !state.userPaused && !motion.matches && !motionPaused) play(video);
     }
   });
 })();
