@@ -16,9 +16,10 @@
       "category": "Developer tools",
       "links": {},
       "media": {
-        "type": "image",
-        "src": "/media/ggo/ggo.webp",
-        "alt": "GG Orchestrator board with tasks moving through plan, build, QA and review lanes"
+        "type": "video",
+        "src": "/media/ggo/ggo.mp4",
+        "poster": "/media/ggo/poster.webp",
+        "alt": "A tour of GG Orchestrator on sample tasks: the board, a task with its chat and diff, the Git console, the calendar, patch notes, then settings switching to the Nocturne theme"
       },
       "order": 1,
       "features": [
@@ -45,9 +46,10 @@
       "category": "Infrastructure",
       "links": {},
       "media": {
-        "type": "image",
-        "src": "/media/ggs/ggs.webp",
-        "alt": "Swarm dashboard showing five devices with their CPU and memory budgets and running workloads"
+        "type": "video",
+        "src": "/media/ggs/ggs.mp4",
+        "poster": "/media/ggs/poster.webp",
+        "alt": "A tour of the Garden Gnome Swarm dashboard: device budgets, adding a device with a join code, then planting a container workload"
       },
       "order": 2,
       "features": [
@@ -73,9 +75,10 @@
         "live": "https://gnomerang.com"
       },
       "media": {
-        "type": "image",
-        "src": "/media/gnomerang/gnomerang.webp",
-        "alt": "Gnomerang landing page"
+        "type": "video",
+        "src": "/media/gnomerang/gnomerang.mp4",
+        "poster": "/media/gnomerang/poster.webp",
+        "alt": "Scrolling gnomerang.com through its services and pricing, the Danish site, then the operations console demo"
       },
       "order": 3,
       "features": [
@@ -102,11 +105,19 @@
         "live": "https://sprogbroen.dk"
       },
       "media": {
-        "type": "image",
-        "src": "/media/sprogbroen/sprogbroen.webp",
-        "alt": "Sprogbroen landing page"
+        "type": "video",
+        "src": "/media/sprogbroen/sprogbroen.mp4",
+        "poster": "/media/sprogbroen/poster.webp",
+        "alt": "A student's tour of Sprogbroen: home, assignments, a picture exercise, the games, a round of hangman, the grammar pages and the learning path"
       },
-      "order": 4
+      "order": 4,
+      "features": [
+        "Exercises grouped by word class, with explanations in Danish or English",
+        "Eight language games, solo or against classmates",
+        "Bro, an AI helper that gives hints instead of answers",
+        "A personal learning path and progress tracking",
+        "Teacher tools for classes, assignments, stats and messages"
+      ]
     },
     {
       "slug": "d2r",
@@ -123,9 +134,10 @@
       "category": "Game automation",
       "links": {},
       "media": {
-        "type": "image",
-        "src": "/media/d2r/d2r.webp",
-        "alt": "Diablo II: Resurrected with the overlay showing the current objective, quest log, map, build and inventory"
+        "type": "video",
+        "src": "/media/d2r/d2r.mp4",
+        "poster": "/media/d2r/poster.webp",
+        "alt": "The bot levelling a Sorceress across acts and difficulties while the overlay shows the objective, quests, map, build and inventory"
       },
       "order": 5,
       "features": [
@@ -150,9 +162,10 @@
       "category": "Game automation",
       "links": {},
       "media": {
-        "type": "image",
-        "src": "/media/wow/wow.webp",
-        "alt": "Twelve World of Warcraft clients, each with a bot-controlled character questing"
+        "type": "video",
+        "src": "/media/wow/wow.mp4",
+        "poster": "/media/wow/poster.webp",
+        "alt": "One bot questing in Tirisfal Glades with its route overlay, then twelve bot-controlled clients questing, fighting and selling side by side"
       },
       "order": 6,
       "features": [
@@ -180,7 +193,7 @@
         "type": "video",
         "src": "/media/mhn/mhn.mp4",
         "poster": "/media/mhn/poster.webp",
-        "alt": "The bot fighting a Fulgur Anjanath with a bowgun while Auto Fight is switched on"
+        "alt": "The in-game control panel and map, a full hunt through to the results screen, then a Khezu fight"
       },
       "order": 7,
       "features": [
@@ -207,9 +220,10 @@
         "live": "https://defend.sprogbroen.dk"
       },
       "media": {
-        "type": "image",
-        "src": "/media/defend-your-castle/defend-your-castle.webp",
-        "alt": "Defend Your Castle title screen"
+        "type": "video",
+        "src": "/media/defend-your-castle/defend-your-castle.mp4",
+        "poster": "/media/defend-your-castle/poster.webp",
+        "alt": "The title screen, a battle where enemies are picked up and thrown, upgrade picks between waves, then wave two"
       },
       "order": 8,
       "features": [
