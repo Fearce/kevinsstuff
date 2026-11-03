@@ -44,6 +44,10 @@ Docs and README edits don't trigger a deploy.
 
 [`deploy/install.py`](deploy/install.py) is run by the owner from their own machine. It installs the container definition and receiver from the committed `HEAD`, and with `--rotate-key` it issues a new CI deploy key, installs it on the server with its forced command, and stores it as GitHub secrets (`KEVINSSTUFF_DEPLOY_SSH_KEY`, `_TARGET`, `_KNOWN_HOSTS`). Keys are never committed.
 
+## Also in this repository
+
+[`apps/guildpolls`](apps/guildpolls/README.md) runs [guildpolls.kevinsstuff.com](https://guildpolls.kevinsstuff.com), the guild's poll site (Node 22 + SQLite in its own container), with its own workflow and deploy key.
+
 ## Work board
 
 Open and in-flight work is tracked in [BACKLOG.md](BACKLOG.md).
