@@ -20,7 +20,14 @@
         "src": "/media/ggo/ggo.webp",
         "alt": "GG Orchestrator board with tasks moving through plan, build, QA and review lanes"
       },
-      "order": 1
+      "order": 1,
+      "features": [
+        "Runs Claude, Codex and other coding agents side by side on one board",
+        "Every task gets its own Git branch and worktree, then integrates linearly",
+        "Optional planner, QA and reviewer passes before work lands",
+        "An office chat where agents coordinate files and hand off work",
+        "Shared memory recall so new agents start with past lessons"
+      ]
     },
     {
       "slug": "ggs",
@@ -42,7 +49,14 @@
         "src": "/media/ggs/ggs.webp",
         "alt": "Swarm dashboard showing five devices with their CPU and memory budgets and running workloads"
       },
-      "order": 2
+      "order": 2,
+      "features": [
+        "Desktops, a Steam Deck, a Raspberry Pi and cloud VMs in one swarm",
+        "Private mesh networking, no ports opened to the internet",
+        "Per-device CPU and memory budgets that yield to whoever is using the machine",
+        "Start, stop and inspect each machine's containers from one dashboard",
+        "Built into the GG Orchestrator console"
+      ]
     },
     {
       "slug": "gnomerang",
@@ -63,7 +77,14 @@
         "src": "/media/gnomerang/gnomerang.webp",
         "alt": "Gnomerang landing page"
       },
-      "order": 3
+      "order": 3,
+      "features": [
+        "Workflow automation, from sorting enquiries to preparing invoices",
+        "Specialist AI teams with defined roles working towards a set goal",
+        "Connects Microsoft 365, Google Workspace and other everyday tools",
+        "People approve, AI does the work",
+        "Fixed packages with prices agreed up front"
+      ]
     },
     {
       "slug": "sprogbroen",
@@ -106,13 +127,20 @@
         "src": "/media/d2r/d2r.webp",
         "alt": "Diablo II: Resurrected with the overlay showing the current objective, quest log, map, build and inventory"
       },
-      "order": 5
+      "order": 5,
+      "features": [
+        "Reads live game state from memory: map, quests, inventory and gear",
+        "Overlay with the current objective, session stats and an action log",
+        "Supervised bot that levels a Sorceress act by act on its own",
+        "Picks up useful finds and stashes them for later",
+        "Tracks the mercenary's gear and the character's build"
+      ]
     },
     {
       "slug": "wow",
-      "name": "WoW Leveling Farm",
-      "tagline": "Twelve characters leveling themselves, side by side.",
-      "description": "An autonomous World of Warcraft bot that takes fresh characters from level 1 upward without input: questing, combat, looting and travel. It runs many lanes in parallel across several game versions. More than 10,000 commits.",
+      "name": "WoW Forever Bot",
+      "tagline": "A complete bot for WoW Forever, and other versions too.",
+      "description": "An autonomous World of Warcraft bot built for WoW Forever that also runs on other versions of the game. It quests, fights, loots, travels and recovers on its own, and several characters can run side by side. More than 10,000 commits.",
       "tags": [
         "Python",
         "C#",
@@ -124,9 +152,16 @@
       "media": {
         "type": "image",
         "src": "/media/wow/wow.webp",
-        "alt": "A grid of twelve World of Warcraft clients, each with a bot-controlled character questing"
+        "alt": "Twelve World of Warcraft clients, each with a bot-controlled character questing"
       },
-      "order": 6
+      "order": 6,
+      "features": [
+        "Levels new characters from 1 to max without input",
+        "Supports WoW Forever plus Classic Era, BC Anniversary and MoP Classic",
+        "Questing, class combat rotations, looting and pathing across zones",
+        "Relogs by itself after disconnects and recovers from deaths",
+        "Runs several characters in parallel, each in its own lane"
+      ]
     },
     {
       "slug": "mhn",
@@ -147,7 +182,14 @@
         "poster": "/media/mhn/poster.webp",
         "alt": "The bot fighting a Fulgur Anjanath with a bowgun while Auto Fight is switched on"
       },
-      "order": 7
+      "order": 7,
+      "features": [
+        "Auto All: walks to a monster, starts a solo hunt, fights and repeats",
+        "Auto Fight with weapon-specific aiming and dodging",
+        "Auto Quest and a monster and star filter for grinding",
+        "Forges, upgrades and picks the best armor between hunts",
+        "Smart healing, simulated GPS and an in-game control panel"
+      ]
     },
     {
       "slug": "defend-your-castle",
@@ -169,7 +211,14 @@
         "src": "/media/defend-your-castle/defend-your-castle.webp",
         "alt": "Defend Your Castle title screen"
       },
-      "order": 8
+      "order": 8,
+      "features": [
+        "Grab enemies and throw them into the ground",
+        "29 enemy types across six factions, with a boss every fifth wave",
+        "72 draft cards and 223 permanent upgrades across five eras",
+        "Server-authoritative online leaderboard",
+        "Three battle speeds and two evolving player spells"
+      ]
     }
   ]
 }
