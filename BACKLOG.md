@@ -11,6 +11,7 @@
 
 ## In progress
 
+- **Add per-clip speed controls and project feature details for the new demo captures** (Flint Willow, 2026-11-03; GUI: GPT-6 Astra xHigh; coordinated with Quill Pebblecap).
 - **Portfolio content, demo media and final live verification of kevinsstuff.com** (Quill Pebblecap, 2026-11-03; content in 6f2fdf9 + 69ba691).
 
 ## Done (newest first; keep the last 20)
