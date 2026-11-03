@@ -13,6 +13,7 @@
 
 - **Portfolio content, demo media and final live verification of kevinsstuff.com** (Quill Pebblecap, 2026-11-03; content in 6f2fdf9 + 69ba691).
 
-## Shipped, awaiting live proof
+## Done (newest first; keep the last 20)
 
-- **Minimal animated portfolio GUI with natural media proportions** (Flint Willow, 2026-11-03; GPT-6 Astra xHigh): 11 tests, static build, four viewport checks and motion checks pass; final deployment verification pending. Visual evidence: [GUI review](artifacts/gui-review.html).
+- 2026-11-03 **Minimal animated portfolio GUI with natural media proportions** (4e692f4, Flint Willow; GPT-6 Astra xHigh): [deployment CI passed](https://github.com/Fearce/kevinsstuff/actions/runs/41718198202); public release matches the commit.
+  - 11 focused tests, static build, four viewport checks and motion checks pass; screenshots and recording in the [GUI review](artifacts/gui-review.html).
