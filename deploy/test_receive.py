@@ -6,6 +6,7 @@ import tarfile
 import tempfile
 import unittest
 from unittest import mock
+import importlib.util
 
 import receive
 
@@ -32,6 +33,7 @@ def site_files(commit, body=b'<h1>hi</h1>'):
             'dist/media/a/clip.webm': b'\x1a\x45\xdf\xa3'}
 
 
+@unittest.skipUnless(importlib.util.find_spec('fcntl'), 'receiver needs Linux (fcntl, symlinks); CI runs these on ubuntu')
 class ReceiveTest(unittest.TestCase):
     def setUp(self):
         self.tmp = tempfile.TemporaryDirectory()
